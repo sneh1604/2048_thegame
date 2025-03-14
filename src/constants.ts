@@ -2,59 +2,44 @@ export const theme = {
   backgroundPrimary: "#FAF8EF",
   backgroundSecondary: "#BBAC9F",
   backgroundTertiary: "#CCC1B3",
-  textPrimary: "#766E65",
+  textPrimary: "#776E65",
+  textSecondary: "#F9F6F2",
   fonts: {
     bold: "ClearSans-Bold",
     regular: "ClearSans-Regular",
   },
 };
 
-export const MARGIN = 5;
-
-export const BOARD_WIDTH_MULTIPLIER = 0.85;
-
+export const MARGIN = 4;
 export const BOARD_SIZE = 4;
+export const BOARD_PADDING = 8;
+export const ANIMATION_DURATION = 150;
 
+// Cell colors matching original 2048
 export const CELL_COLORS: Record<number, string> = {
-  2: "#fcefe6",
-  4: "#f2e8cb",
-  8: "#f5b682",
-  16: "#f29446",
-  32: "#ff775c",
-  64: "#e64c2e",
-  128: "#ede291",
-  256: "#fce130",
-  512: "#ffdb4a",
-  1024: "#f0b922",
-  2048: "#fad74d",
+  2: "#eee4da",
+  4: "#ede0c8",
+  8: "#f2b179",
+  16: "#f59563",
+  32: "#f67c5f",
+  64: "#f65e3b",
+  128: "#edcf72",
+  256: "#edcc61",
+  512: "#edc850",
+  1024: "#edc53f",
+  2048: "#edc22e",
 };
 
 export const CELL_NUMBER_COLORS: Record<number, string> = {
-  2: "#695c57",
-  4: "#695c57",
-  8: "#ffffff",
-  16: "#ffffff",
-  32: "#ffffff",
-  64: "#ffffff",
-  128: "#ffffff",
-  256: "#ffffff",
-  512: "#ffffff",
-  1024: "#ffffff",
-  2048: "#ffffff",
+  2: "#776e65",
+  4: "#776e65",
+  8: "#f9f6f2",
+  16: "#f9f6f2",
+  32: "#f9f6f2",
+  64: "#f9f6f2",
+  128: "#f9f6f2",
+  256: "#f9f6f2",
+  512: "#f9f6f2",
+  1024: "#f9f6f2",
+  2048: "#f9f6f2",
 };
-
-export const CELL_NUMBER_FONT_SIZE: Record<number, number> = {
-  2: 50,
-  4: 50,
-  8: 50,
-  16: 45,
-  32: 45,
-  64: 45,
-  128: 35,
-  256: 35,
-  512: 35,
-  1024: 25,
-  2048: 25,
-};
-
-export const ANIMATION_DURATION = 100;

@@ -1,6 +1,5 @@
 import { Text, StyleSheet } from "react-native";
 import React, { useEffect, useRef } from "react";
-import { useCellSize } from "../hooks";
 import Animated, {
   useAnimatedStyle,
   withTiming,
@@ -12,59 +11,51 @@ import {
   ANIMATION_DURATION,
   CELL_COLORS,
   CELL_NUMBER_COLORS,
-  CELL_NUMBER_FONT_SIZE,
   MARGIN,
-  theme,
 } from "../constants";
 
 interface Props {
   x: number;
   y: number;
   value: number;
+  size: number;
 }
 
-const Cell = ({ x, y, value }: Props) => {
-  const cellWidth = useCellSize();
+const Cell = ({ x, y, value, size }: Props) => {
   const prevValue = useRef(value);
   const scaleUp = useSharedValue(false);
 
-  const getCellPosition = (x: number, y: number) => {
-    return {
-      top: 2 * MARGIN + x * (cellWidth + 2 * MARGIN),
-      left: 2 * MARGIN + y * (cellWidth + 2 * MARGIN),
-    };
+  const getFontSize = (value: number) => {
+    const length = value.toString().length;
+    if (length <= 2) return size * 0.45;
+    if (length <= 3) return size * 0.35;
+    return size * 0.25;
   };
 
-  const top = useSharedValue(getCellPosition(x, y).top);
-  const left = useSharedValue(getCellPosition(x, y).left);
+  const getCellPosition = (coordinate: number) => {
+    return coordinate * (size + MARGIN);
+  };
+
+  const top = useSharedValue(getCellPosition(x));
+  const left = useSharedValue(getCellPosition(y));
 
   useEffect(() => {
-    const position = getCellPosition(x, y);
-    top.value = position.top;
-    left.value = position.left;
+    top.value = getCellPosition(x);
+    left.value = getCellPosition(y);
   }, [x, y]);
 
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      top: withTiming(top.value, { duration: ANIMATION_DURATION }),
-      left: withTiming(left.value, { duration: ANIMATION_DURATION }),
-      transform: [
-        {
-          scale: withTiming(
-            scaleUp.value ? 1.1 : 1,
-            {
-              duration: ANIMATION_DURATION,
-            },
-            (finished) => {
-              if (finished) {
-                scaleUp.value = false;
-              }
-            }
-          ),
-        },
-      ],
-    };
-  });
+  const animatedStyles = useAnimatedStyle(() => ({
+    top: withTiming(top.value, { duration: ANIMATION_DURATION }),
+    left: withTiming(left.value, { duration: ANIMATION_DURATION }),
+    transform: [{
+      scale: withTiming(scaleUp.value ? 1.1 : 1, { duration: ANIMATION_DURATION }, 
+        (finished) => {
+          if (finished) {
+            scaleUp.value = false;
+          }
+        })
+    }],
+  }));
 
   if (prevValue.current !== value) {
     scaleUp.value = true;
@@ -76,8 +67,8 @@ const Cell = ({ x, y, value }: Props) => {
       style={[
         styles.container,
         {
-          width: cellWidth,
-          height: cellWidth,
+          width: size,
+          height: size,
           backgroundColor: CELL_COLORS[value],
         },
         animatedStyles,
@@ -87,11 +78,11 @@ const Cell = ({ x, y, value }: Props) => {
     >
       <Text
         style={[
+          styles.number,
           {
             color: CELL_NUMBER_COLORS[value],
-            fontSize: CELL_NUMBER_FONT_SIZE[value],
-            fontFamily: theme.fonts.bold,
-            lineHeight: 1.25 * CELL_NUMBER_FONT_SIZE[value],
+            fontSize: getFontSize(value),
+            fontFamily: 'ClearSans-Bold',
           },
         ]}
       >
@@ -104,9 +95,21 @@ const Cell = ({ x, y, value }: Props) => {
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    borderRadius: 5,
+    borderRadius: 6,
     justifyContent: "center",
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
+    elevation: 3,
+  },
+  number: {
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

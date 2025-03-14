@@ -21,10 +21,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sneh140.two048"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "69e18151-be90-410c-b06f-5face354cbd6"
+      }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

@@ -1,50 +1,78 @@
-import { Text, StyleSheet, Pressable } from "react-native";
-import React from "react";
-import { theme } from "../constants";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-interface Props {
-  onTryAgain: () => void;
+interface GameOverScreenProps {
+  score: number;
+  highScore: number;
+  onRestart: () => void;
 }
 
-const GameOverScreen = ({ onTryAgain }: Props) => {
+const GameOverScreen: React.FC<GameOverScreenProps> = ({ score, highScore, onRestart }) => {
   return (
-    <Animated.View
-      entering={FadeIn}
-      exiting={FadeOut}
-      style={[StyleSheet.absoluteFill, styles.container]}
-    >
-      <Text style={styles.heading}>Game Over!</Text>
-      <Pressable style={styles.button} onPress={onTryAgain}>
-        <Text style={styles.btnText}>Start again</Text>
-      </Pressable>
-    </Animated.View>
+    <View style={styles.container}>
+      <View style={styles.modal}>
+        <Text style={styles.title}>Game Over!</Text>
+        <Text style={styles.scoreText}>Score: {score}</Text>
+        <Text style={styles.highScoreText}>High Score: {highScore}</Text>
+        <TouchableOpacity style={styles.button} onPress={onRestart}>
+          <Text style={styles.buttonText}>Play Again</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: `${theme.backgroundPrimary}b4`,
-    zIndex: 10,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 100,
   },
-  heading: {
-    fontFamily: theme.fonts.bold,
-    fontSize: 58,
-    color: theme.textPrimary,
+  modal: {
+    width: '80%',
+    backgroundColor: '#faf8ef',
+    borderRadius: 8,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#776e65',
+    marginBottom: 20,
+  },
+  scoreText: {
+    fontSize: 18,
+    color: '#776e65',
+    marginBottom: 10,
+  },
+  highScoreText: {
+    fontSize: 18,
+    color: '#776e65',
+    marginBottom: 30,
+    fontWeight: 'bold',
   },
   button: {
-    padding: 8,
-    paddingHorizontal: 12,
+    backgroundColor: '#8f7a66',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 4,
-    backgroundColor: theme.textPrimary,
-    marginTop: 18,
   },
-  btnText: {
-    color: theme.backgroundPrimary,
-    fontFamily: theme.fonts.regular,
-    lineHeight: 16,
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

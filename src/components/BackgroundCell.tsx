@@ -1,21 +1,26 @@
 import { View, StyleSheet } from "react-native";
 import React from "react";
-import { MARGIN, theme } from "../constants";
-import { useCellSize } from "../hooks";
+import { theme } from "../constants";
 
-const BackgroundCell = () => {
-  const cellWidth = useCellSize();
+interface Props {
+  size: number;
+}
 
+const BackgroundCell = ({ size }: Props) => {
   return (
-    <View style={[styles.container, { width: cellWidth, height: cellWidth }]} />
+    <View 
+      style={[
+        styles.container, 
+        { width: size, height: size }
+      ]} 
+    />
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.backgroundTertiary,
-    margin: MARGIN,
-    borderRadius: 5,
+    borderRadius: 6,
   },
 });
 
